@@ -12,4 +12,4 @@ Iniciar desenvolvimento:
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:300
+Abrir Rota no navegador (http://localhost:3000)
