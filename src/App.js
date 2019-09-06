@@ -1,8 +1,11 @@
-import React, { useMemo } from 'react'
-import HomePage from './pages/HomePage'
-import { Router, Route } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
-import './layout/css/App.css'
+import React, { useMemo } from "react"
+import HomePage from "./pages/HomePage"
+
+import { Router, Route } from "react-router-dom"
+import { createBrowserHistory } from "history"
+import "./layout/css/App.css"
+import LoginPage from "./pages/LoginPage"
+import RegisterPage from "./pages/RegisterPage"
 
 function App({ key }) {
 	const history = useMemo(() => createBrowserHistory(), [])
@@ -13,6 +16,9 @@ function App({ key }) {
 			{/* <Route path="/login" exact component={LoginPage} /> */}
 			{/* <Route path="/register" exact component={RegisterPage} /> */}
 			<Route path="/" exact component={HomePage} />
+			<Route path="/login" exact component={LoginPage} />
+			<Route path="/register" exact component={RegisterPage} />
+
 			{/* <Route path="/produtos" exact component={VideosPage} />
 				<Route path="/produtos/add" exact component={AddVideo} />
 				<Route
