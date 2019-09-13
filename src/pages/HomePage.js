@@ -19,7 +19,7 @@ const HomePage = () => {
 
 	useEffect(() => {
 		setInterval(() => {
-			if (state.iterator < 2) {
+			if (state.iterator) {
 				setState({ iterator: state.iterator + 1 })
 			} else {
 				setState({ iterator: 0 })

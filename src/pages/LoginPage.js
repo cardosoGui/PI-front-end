@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
+import useReduxState from "../core/useReduxState"
 
 function Copyright() {
 	return (
@@ -51,8 +52,39 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function LoginPage() {
+export default function LoginPage({ history }) {
 	const classes = useStyles()
+
+	const [getState, setState, updateFormField] = useReduxState({})
+
+	const onSubmit = nextForm => {
+		const { localUser } = getState()
+		alert(JSON.stringify(nextForm.password))
+
+		if (
+			nextForm.email === localUser.email &&
+			nextForm.password === nextForm.password
+		) {
+			history.push("/")
+		} else {
+			alert("Error")
+		}
+	}
+
+	const fetchData = async () => {
+		try {
+			const data = await {
+				email: localStorage.getItem("email"),
+				password: localStorage.getItem("password")
+			}
+
+			return data
+		} catch (e) {}
+	}
+
+	useEffect(() => {
+		fetchData().then(payload => setState({ localUser: payload }))
+	}, [])
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -64,7 +96,10 @@ export default function LoginPage() {
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form
+					className={classes.form}
+					noValidate
+					onSubmit={() => onSubmit(getState())}>
 					<TextField
 						variant="outlined"
 						margin="normal"
@@ -75,6 +110,7 @@ export default function LoginPage() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						onChange={e => updateFormField("email")(e.target.value)}
 					/>
 					<TextField
 						variant="outlined"
@@ -85,7 +121,9 @@ export default function LoginPage() {
 						label="Password"
 						type="password"
 						id="password"
-						autoComplete="current-password"
+						onChange={e =>
+							updateFormField("password")(e.target.value)
+						}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
@@ -97,9 +135,7 @@ export default function LoginPage() {
 						variant="contained"
 						color="primary"
 						className={classes.submit}>
-						<a style={{ color: "#FFF" }} href="/">
-							Login
-						</a>
+						Login
 					</Button>
 					<Grid container>
 						<Grid item xs>

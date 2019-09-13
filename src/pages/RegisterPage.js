@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
+import useReduxState from "../core/useReduxState"
 
 function Copyright() {
 	return (
@@ -51,8 +52,22 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function RegisterPage() {
+export default function RegisterPage({ history }) {
 	const classes = useStyles()
+
+	const [getState, setState, updateFormField] = useReduxState({})
+
+	const onSubmit = form => {
+		localStorage.setItem("first_name", form.first_name)
+		localStorage.setItem("last_name", form.last_name)
+
+		localStorage.setItem("email", form.email)
+
+		localStorage.setItem("password", form.password)
+
+		alert("Sucesso")
+		history.push("/login")
+	}
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -64,7 +79,10 @@ export default function RegisterPage() {
 				<Typography component="h1" variant="h5">
 					Registrar
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form
+					className={classes.form}
+					noValidate
+					onSubmit={() => onSubmit(getState())}>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
 							<TextField
@@ -76,6 +94,11 @@ export default function RegisterPage() {
 								id="firstName"
 								label="First Name"
 								autoFocus
+								onChange={e => {
+									updateFormField("first_name")(
+										e.target.value
+									)
+								}}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
@@ -87,6 +110,9 @@ export default function RegisterPage() {
 								label="Last Name"
 								name="lastName"
 								autoComplete="lname"
+								onChange={e => {
+									updateFormField("last_name")(e.target.value)
+								}}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -98,6 +124,9 @@ export default function RegisterPage() {
 								label="Email Address"
 								name="email"
 								autoComplete="email"
+								onChange={e => {
+									updateFormField("email")(e.target.value)
+								}}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -110,6 +139,9 @@ export default function RegisterPage() {
 								type="password"
 								id="password"
 								autoComplete="current-password"
+								onChange={e => {
+									updateFormField("password")(e.target.value)
+								}}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -130,11 +162,7 @@ export default function RegisterPage() {
 						variant="contained"
 						color="primary"
 						className={classes.submit}>
-						<a
-							href="/login"
-							onClick={() => alert("Registrado com sucesso")}>
-							Registrar
-						</a>
+						Registrar
 					</Button>
 					<Grid container justify="flex-end">
 						<Grid item>
