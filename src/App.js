@@ -6,9 +6,24 @@ import { createBrowserHistory } from "history"
 import "./layout/css/App.css"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
+import PanelPage from "./pages/panel/PanelPage"
+import Dashboard from "./layout/Dashboard"
+import ProductsPage from "./pages/panel/ProductsPage"
+import ProductsForm from "./components/forms/ProductsForm"
 
 function App({ key }) {
 	const history = useMemo(() => createBrowserHistory(), [])
+
+	const Products = () => (
+		<Dashboard>
+			<ProductsPage />
+		</Dashboard>
+	)
+	const ProductsAdd = () => (
+		<Dashboard>
+			<ProductsForm />
+		</Dashboard>
+	)
 
 	return (
 		<Router history={history}>
@@ -18,6 +33,9 @@ function App({ key }) {
 			<Route path="/" exact component={HomePage} />
 			<Route path="/login" exact component={LoginPage} />
 			<Route path="/register" exact component={RegisterPage} />
+			<Route path="/painel" exact component={PanelPage} />
+			<Route path="/products" exact component={Products} />
+			<Route path="/products/add" exact component={ProductsAdd} />
 
 			{/* <Route path="/produtos" exact component={VideosPage} />
 				<Route path="/produtos/add" exact component={AddVideo} />

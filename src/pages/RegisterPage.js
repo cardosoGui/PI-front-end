@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -55,18 +55,37 @@ const useStyles = makeStyles(theme => ({
 export default function RegisterPage({ history }) {
 	const classes = useStyles()
 
-	const [getState, setState, updateFormField] = useReduxState({})
+	const [getState, setState] = useReduxState({})
+	const [getForm, setForm, updateFormField] = useReduxState({})
+
+	const form = getForm()
+
+	var tbClientes = localStorage.getItem("tbClientes") // Recupera os dados armazenados
+	tbClientes = JSON.parse(tbClientes) // Converte string para objeto
+	if (tbClientes == null) tbClientes = []
+
+	function Adicionar() {
+		// var cliente = JSON.stringify(form)
+		if (form.email !== "" && form.password !== "") {
+			tbClientes.push(form)
+			localStorage.setItem("tbClientes", JSON.stringify(tbClientes))
+			alert("Usuário Cadastrado.")
+			history.goBack()
+		} else {
+			alert("Preencha os campos")
+		}
+	}
+
+	useEffect(() => {
+		// handleForm()
+	}, [])
 
 	const onSubmit = form => {
-		localStorage.setItem("first_name", form.first_name)
-		localStorage.setItem("last_name", form.last_name)
-
-		localStorage.setItem("email", form.email)
-
-		localStorage.setItem("password", form.password)
-
-		alert("Sucesso")
-		history.push("/login")
+		// prev_form.push(form)
+		// // const next_form = e.push(form)
+		// console.log(prev_form)
+		// localStorage.setItem("form", JSON.stringify(prev_form))
+		// // history.push("/login")
 	}
 
 	return (
@@ -79,10 +98,12 @@ export default function RegisterPage({ history }) {
 				<Typography component="h1" variant="h5">
 					Registrar
 				</Typography>
+				{/* <pre>{JSON.stringify(form, null, 4)}</pre> */}
 				<form
 					className={classes.form}
 					noValidate
-					onSubmit={() => onSubmit(getState())}>
+					// onChange={() => handleForm(form)}
+				>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
 							<TextField
@@ -148,16 +169,22 @@ export default function RegisterPage({ history }) {
 							<FormControlLabel
 								control={
 									<Checkbox
-										value="allowExtraEmails"
+										onChange={e => {
+											updateFormField("is_admin")(
+												e.target.checked
+											)
+										}}
+										value={getState().is_admin}
 										color="primary"
 									/>
 								}
-								label="I want to receive inspiration, marketing promotions and updates via email."
+								label="Admin"
 							/>
 						</Grid>
 					</Grid>
 					<Button
-						type="submit"
+						onClick={() => Adicionar()}
+						type="button"
 						fullWidth
 						variant="contained"
 						color="primary"

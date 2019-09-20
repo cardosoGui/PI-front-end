@@ -10,7 +10,6 @@ import InfoIcon from "@material-ui/icons/Info"
 const useStyles = makeStyles({
 	image: { width: "100%" }
 })
-
 const HomePage = () => {
 	const classes = useStyles()
 	const [state, setState] = useState({

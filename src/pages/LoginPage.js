@@ -56,38 +56,45 @@ export default function LoginPage({ history }) {
 	const classes = useStyles()
 
 	const [getState, setState, updateFormField] = useReduxState({})
+	const [getLocalUsers, setLocalUsers] = useReduxState({})
 
-	const onSubmit = nextForm => {
-		const { localUser } = getState()
-		alert(JSON.stringify(nextForm.password))
+	const { local } = getLocalUsers()
 
-		if (
-			nextForm.email === localUser.email &&
-			nextForm.password === nextForm.password
-		) {
-			history.push("/")
-		} else {
-			alert("Error")
-		}
+	const onSubmit = () => {
+		const form = getState()
+
+		local.map((user, i) => {
+			if (form.email === user.email && form.password === user.password) {
+				const valid_user = user
+				if (valid_user) {
+					if (user.is_admin) {
+						history.push("/painel")
+					} else {
+						history.push("/")
+					}
+				} else {
+					alert("Usuário Invalido")
+				}
+			}
+		})
 	}
 
 	const fetchData = async () => {
 		try {
-			const data = await {
-				email: localStorage.getItem("email"),
-				password: localStorage.getItem("password")
-			}
-
+			const data = await localStorage.getItem("tbClientes")
 			return data
 		} catch (e) {}
 	}
 
 	useEffect(() => {
-		fetchData().then(payload => setState({ localUser: payload }))
+		fetchData().then(payload =>
+			setLocalUsers({ local: JSON.parse(payload) })
+		)
 	}, [])
 
 	return (
 		<Container component="main" maxWidth="xs">
+			{/* <pre>{JSON.stringify(getState(), null, 4)}</pre> */}
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
@@ -96,10 +103,7 @@ export default function LoginPage({ history }) {
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
-				<form
-					className={classes.form}
-					noValidate
-					onSubmit={() => onSubmit(getState())}>
+				<form className={classes.form} noValidate>
 					<TextField
 						variant="outlined"
 						margin="normal"
@@ -130,10 +134,11 @@ export default function LoginPage({ history }) {
 						label="Remember me"
 					/>
 					<Button
-						type="submit"
+						type="button"
 						fullWidth
 						variant="contained"
 						color="primary"
+						onClick={onSubmit}
 						className={classes.submit}>
 						Login
 					</Button>
