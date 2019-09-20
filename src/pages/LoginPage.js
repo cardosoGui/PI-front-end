@@ -150,7 +150,7 @@ export default function LoginPage({ history }) {
 						</Grid>
 						<Grid item>
 							<Link href="/register" variant="body2">
-								{"Don't have an account? Sign Up"}
+								{"Cadastra-se Já!"}
 							</Link>
 						</Grid>
 					</Grid>
