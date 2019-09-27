@@ -10,10 +10,16 @@ import {
 	GridListTileBar,
 	Fab
 } from "@material-ui/core"
-import { makeStyles } from "@material-ui/styles"
+import { makeStyles } from '@material-ui/core/styles';
 import InfoIcon from "@material-ui/icons/Info"
 import toCurrency from "../../core/toCurrency"
 import AddIcon from "@material-ui/icons/Add"
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -65,6 +71,15 @@ const ProductsPage = ({ history }) => {
 			else setState({ ...state, error: {} })
 		}
 	}
+	const [open, setOpen] = React.useState(false);
+	  
+	function handleClickOpen() {
+	  setOpen(true);
+	}
+  
+	function handleClose() {
+	  setOpen(false);
+	}
 	useEffect(() => {
 		fetchData()
 	}, [])
@@ -102,7 +117,7 @@ const ProductsPage = ({ history }) => {
 					cellHeight={500}
 					spacing={20}
 					className={classes.gridList}
-					cols={2}>
+					cols={4}>
 					{children}
 				</GridList>
 			</Grid>
@@ -110,10 +125,11 @@ const ProductsPage = ({ history }) => {
 	}
 
 	const { products } = state
+
 	return (
 		<Grid>
 			<ProductsContainer>
-				{products.map((item, key) => (
+				{products && products.map((item, key) => (
 					<GridListTile key={key} cols={item.cols || 1}>
 						<img
 							width="300px"
@@ -128,20 +144,38 @@ const ProductsPage = ({ history }) => {
 							subtitle={
 								<div
 									className="flex-row"
-									style={{ fontSize: 16, height: "50%" }}>
+									style={{ fontSize: 12, height: "50%" }}>
 									<b>Preço: {`${toCurrency(item.price)}`}</b>
 
 									<i>Região: {item.region}</i>
 								</div>
 							}
 							actionIcon={
+								<div>
 								<IconButton
 									style={{
 										color: "rgba(255, 255, 255, 0.54)"
 									}}
+									onClick={handleClickOpen}
 									aria-label={`info about ${item.description}`}>
 									<InfoIcon />
 								</IconButton>
+								<Dialog
+								  open={open}
+								  onClose={handleClose}
+								  aria-labelledby="alert-dialog-title"
+								  aria-describedby="alert-dialog-description"
+								>
+								  <DialogTitle id="alert-dialog-title">{item.name}</DialogTitle>
+								  <DialogContent>
+									<DialogContentText id="alert-dialog-description">
+									 {item.description}
+									</DialogContentText>
+								  </DialogContent>
+								
+								</Dialog>
+							  </div>
+								
 							}
 						/>
 					</GridListTile>

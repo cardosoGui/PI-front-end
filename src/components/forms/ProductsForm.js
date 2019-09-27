@@ -62,10 +62,31 @@ const ProductsForm = ({ history }) => {
 						<TextField
 							variant="outlined"
 							fullWidth
+							label="Palavras Chave"
+							onChange={e => {
+								updateFormField("key_words")(e.target.value)
+							}}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							variant="outlined"
+							fullWidth
 							type="number"
 							label="Preço"
 							onChange={e => {
 								updateFormField("price")(e.target.value)
+							}}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							variant="outlined"
+							fullWidth
+							type="number"
+							label="Quantidade"
+							onChange={e => {
+								updateFormField("count")(e.target.value)
 							}}
 						/>
 					</Grid>

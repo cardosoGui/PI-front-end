@@ -94,7 +94,7 @@ export default function LoginPage({ history }) {
 
 	return (
 		<Container component="main" maxWidth="xs">
-			{/* <pre>{JSON.stringify(getState(), null, 4)}</pre> */}
+			 <pre>{JSON.stringify(getState(), null, 4)}</pre> 
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
@@ -150,7 +150,7 @@ export default function LoginPage({ history }) {
 						</Grid>
 						<Grid item>
 							<Link href="/register" variant="body2">
-								{"Cadastra-se Já!"}
+								{"Cadastre-se já!"}
 							</Link>
 						</Grid>
 					</Grid>
