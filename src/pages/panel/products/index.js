@@ -12,13 +12,9 @@ import {
 	ListItem
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/styles"
-import InfoIcon from "@material-ui/icons/Info"
-import toCurrency from "../../core/toCurrency"
 import AddIcon from "@material-ui/icons/Add"
-import api from "../../core/api"
-import useReduxState from "../../core/useReduxState"
-import ProductsContainer from "../../containers/ProductsContainer"
-import ProductItem from "../../components/ProductItem"
+import ProductsContainer from "../../../containers/ProductsContainer"
+import ProductItem from "../../../components/ProductItem"
 
 const useStyles = makeStyles(theme => ({
 	root: {

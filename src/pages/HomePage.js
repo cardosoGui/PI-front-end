@@ -16,16 +16,6 @@ const HomePage = () => {
 		iterator: 0
 	})
 
-	useEffect(() => {
-		setInterval(() => {
-			if (state.iterator) {
-				setState({ iterator: state.iterator + 1 })
-			} else {
-				setState({ iterator: 0 })
-			}
-		}, 2000)
-	}, [])
-
 	const Slides = () => {
 		const images = [
 			"https://chezfrance.vteximg.com.br/arquivos/ids/163411/clube-set-2019-full.jpg",

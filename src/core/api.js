@@ -1,16 +1,18 @@
-import axios from 'axios'
+import axios from "axios"
 
-// const baseURL = 'http://192.168.0.40:8000'
-const baseURL = process.env.REACT_APP_API_URL
+// const baseURL = "http://localhost:5000/"
+// const baseURL = process.env.REACT_APP_API_URL
 
-const api = axios.create({ baseURL })
+const api = axios.create({
+	baseURL: "http://localhost:5000"
+})
 
-api.interceptors.request.use((config) => ({
-	...config,
-	headers: {
-		...config.headers,
-		Authorization: `Bearer ${localStorage.getItem('token') || ''}`
-	}
-}))
+// api.interceptors.request.use(config => ({
+// 	...config,
+// 	headers: {
+// 		...config.headers,
+// 		Authorization: `Bearer ${localStorage.getItem("token") || ""}`
+// 	}
+// }))
 
 export default api

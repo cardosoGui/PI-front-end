@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Grid, List, CircularProgress } from "@material-ui/core"
 import { makeStyles } from "@material-ui/styles"
+import api from "../core/api"
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -18,20 +19,15 @@ export default function ProductsContainer({ key, children }) {
 
 	const classes = useStyles()
 
-	function fetchData() {
+	const fetchData = async () => {
 		setState({
 			partners: [],
 			loading: true,
 			error: null
 		})
 		try {
-			const data = localStorage.getItem("products")
-			console.log(data)
-
-			setState({
-				products: JSON.parse(data),
-				loading: false
-			})
+			const { data } = await api.get("/products")
+			return data
 		} catch (e) {
 			if (e.response)
 				setState({
@@ -45,8 +41,15 @@ export default function ProductsContainer({ key, children }) {
 	}
 
 	useEffect(() => {
-		fetchData()
-	}, [key])
+		fetchData().then(res =>
+			setState({
+				products: res,
+				loading: false
+			})
+		)
+	}, [])
+
+	console.log(state.products)
 
 	if (state.error) {
 		return (
