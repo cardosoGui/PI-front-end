@@ -30,7 +30,10 @@ function Copyright() {
 const useStyles = makeStyles(theme => ({
 	"@global": {
 		body: {
-			backgroundColor: theme.palette.common.white
+			color: "white",
+			background: " #DA4453  ",
+			background: " -webkit-linear-gradient(to right, #89216B, #DA4453) ",
+			background: " linear-gradient(to right, #89216B, #DA4453) "
 		}
 	},
 	paper: {
@@ -49,7 +52,13 @@ const useStyles = makeStyles(theme => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2)
-	}
+	},
+	gradient: {
+		background: "rgb(36,0,10)",
+		background:
+			"linear-gradient(21deg, rgba(36,0,10,1) 0%, rgba(223,24,89,1) 55%)"
+	},
+	text: { color: "#fff" }
 }))
 
 export default function LoginPage({ history }) {
@@ -93,7 +102,7 @@ export default function LoginPage({ history }) {
 	}, [])
 
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container component="main" maxWidth="xs" style={{}}>
 			{/* <pre>{JSON.stringify(getState(), null, 4)}</pre> */}
 			<CssBaseline />
 			<div className={classes.paper}>
@@ -103,8 +112,9 @@ export default function LoginPage({ history }) {
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form className={classes.text} noValidate>
 					<TextField
+						className={classes.text}
 						variant="outlined"
 						margin="normal"
 						required
@@ -117,6 +127,7 @@ export default function LoginPage({ history }) {
 						onChange={e => updateFormField("email")(e.target.value)}
 					/>
 					<TextField
+						className={classes.text}
 						variant="outlined"
 						margin="normal"
 						required

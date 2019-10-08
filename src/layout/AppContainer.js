@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Button } from "@material-ui/core"
+import { Button, Typography, Link } from "@material-ui/core"
 import Paper from "@material-ui/core/Paper"
 import InputBase from "@material-ui/core/InputBase"
 import Divider from "@material-ui/core/Divider"
@@ -11,7 +11,7 @@ import DirectionsIcon from "@material-ui/icons/Directions"
 
 const useStyles = makeStyles({
 	header: {
-		height: "5vh",
+		height: "5em",
 		backgroundColor: "#f8f8f8",
 		padding: "1%",
 		borderBottom: "1px solid #000"
@@ -91,10 +91,29 @@ const AppContainer = ({ children }) => {
 		)
 	}
 
+	function Copyright() {
+		return (
+			<Typography
+				style={{ padding: "1em" }}
+				variant="body2"
+				color="textSecondary"
+				align="center">
+				{"Copyright © "}
+				<Link color="inherit" href="https://material-ui.com/">
+					e-wine
+				</Link>{" "}
+				{new Date().getFullYear()}
+				{"."}
+			</Typography>
+		)
+	}
+
 	return (
 		<div>
 			<Header />
 			{children}
+
+			<Copyright />
 		</div>
 	)
 }

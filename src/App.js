@@ -11,6 +11,7 @@ import Dashboard from "./layout/Dashboard"
 import ProductsPage from "./pages/panel/products"
 import ProductsForm from "./components/forms/ProductsForm"
 import ProductsEdit from "./pages/panel/products/editproduct"
+import DetailsProduct from "./components/DetailsProduct"
 
 function App({ key }) {
 	const history = useMemo(() => createBrowserHistory(), [])
@@ -37,6 +38,12 @@ function App({ key }) {
 			<Route path="/painel" exact component={PanelPage} />
 			<Route path="/products" exact component={Products} />
 			<Route path="/products/add" exact component={ProductsAdd} />
+			<Route
+				path="/products/details/:id"
+				exact
+				component={DetailsProduct}
+			/>
+
 			<Route
 				path="/products/edit/:productId"
 				exact

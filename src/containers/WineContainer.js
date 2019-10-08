@@ -25,53 +25,91 @@ const WineContainer = ({ children }) => {
 	const wineData = [
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		},
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO CHÂTEAU",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		},
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO  LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		},
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		},
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		},
 		{
 			img: image,
-			title: "Image",
-			author: "author",
+			title: "VINHO TINTO 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO  CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
+			cols: 1
+		},
+		{
+			img: image,
+			title: "VINHO TINTO CHÂTEAU CABEZAC LE PETIT ARTHUR 2017",
+			author:
+				"Sua cor brilhante é de um vermelho grená. O nariz é expressivo, com uma primeira nota de vegetação rasteira que evolui para frutas pretas. A boca redonda apresenta taninos fundidos e termina com aromas de ameixa seca, frutas vermelhas e couro.",
 			cols: 1
 		}
 	]
 
-	return (
-		<div className={classes.root}>
-			<GridList
-				cellHeight={500}
-				spacing={20}
-				className={classes.gridList}
-				cols={3}>
-				{children(wineData)}
-			</GridList>
-		</div>
-	)
+	return <div className={classes.root}>{children(wineData)}</div>
 }
 
 export default WineContainer
