@@ -243,6 +243,8 @@ const CustomerForm = ({ match }) => {
 						}
 					}
 				}
+			} else {
+				alert("Nome deve contar mais que 3 letras")
 			}
 		}
 

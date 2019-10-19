@@ -94,7 +94,7 @@ const UserItem = ({ user }) => {
 						<ListItem
 							button
 							component={Link}
-							to={`/customer/register/${user.id}`}>
+							to={`/customer/edit/${user.id}`}>
 							<Typography className={classes.typography}>
 								Editar Usuário
 							</Typography>
