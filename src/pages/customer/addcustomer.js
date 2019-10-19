@@ -139,6 +139,20 @@ const CustomerForm = ({ match }) => {
 
 	useEffect(() => {
 		if (localStorage.getItem("customer")) {
+			if (match.params.id) {
+				const customers = JSON.parse(localStorage.getItem("customer"))
+
+				customers.map(user => {
+					if (user.id == match.params.id) {
+						alert(JSON.stringify(user))
+						setState({ ...user })
+						setDocSTD(user.document)
+						setAddress(user.address)
+						setShippingAddress(user.shipping_address)
+						setCheckboxes(user.checkboxes)
+					}
+				})
+			}
 		} else {
 			localStorage.setItem("customer", "[]")
 		}
@@ -179,7 +193,8 @@ const CustomerForm = ({ match }) => {
 	}
 
 	const onSubmit = () => {
-		let store_form = [localStorage.getItem("customer")]
+		const store = JSON.parse(localStorage.getItem("customer"))
+		let email
 
 		const form = {
 			...getState,
@@ -190,6 +205,14 @@ const CustomerForm = ({ match }) => {
 				: { ...address },
 			address
 		}
+
+		store.map(item => {
+			if (item.email === form.email) {
+				email = item.email
+				return
+			}
+			return
+		})
 
 		if (form) {
 			if (form.name.length > 3) {
@@ -206,25 +229,24 @@ const CustomerForm = ({ match }) => {
 						) {
 							alert("O campo endereço de cobrança é obrigatório")
 						} else {
-							store_form.map(item => {
-								if (item.email === form.email) {
-									setState({ valid: false })
-									alert("Já existe um email cadastrado")
-								} else {
-									store_form.push(form)
-									localStorage.setItem(
-										"customer",
-										JSON.stringify(store_form)
-									)
-								}
-							})
+							if (email === form.email) {
+								alert("email igual")
+							} else {
+								store.push(form)
+								console.log(store)
+
+								localStorage.setItem(
+									"customer",
+									JSON.stringify(store)
+								)
+							}
 						}
 					}
 				}
 			}
 		}
 
-		alert(JSON.stringify(store_form, null, 4))
+		alert(JSON.stringify(store, null, 4))
 	}
 
 	useEffect(() => {
@@ -245,7 +267,7 @@ const CustomerForm = ({ match }) => {
 			onSubmit={() =>
 				CPFValidation(docSTD.number)
 					? onSubmit()
-					: alert("Preencha os campos")
+					: alert("insira CPF válido")
 			}>
 			<Grid container alignContent="center" justify="center" spacing={2}>
 				<Grid item>
@@ -281,6 +303,7 @@ const CustomerForm = ({ match }) => {
 						fullwidth
 						label="E-mail"
 						type="email"
+						value={email}
 						error={notEmpty(!email) ? !valid : false}
 						onChange={e =>
 							setState({
@@ -334,6 +357,7 @@ const CustomerForm = ({ match }) => {
 						fullwidth
 						type="password"
 						label="SENHA"
+						value={password}
 						error={notEmpty(!password) ? !valid : false}
 						onChange={e =>
 							setState({
@@ -349,6 +373,7 @@ const CustomerForm = ({ match }) => {
 						fullwidth
 						type="password"
 						label="CONFIRME A SENHA"
+						value={confirmPassword}
 						error={notEmpty(!confirmPassword) ? !valid : false}
 						onChange={e =>
 							setState({
