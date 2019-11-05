@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -12,17 +12,25 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
+import { useAppContext } from "../components/singletons/AppContext"
+import api from "../core/api"
 import useReduxState from "../core/useReduxState"
+import { withRouter } from "react-router-dom"
+import { SnackbarProvider, useSnackbar } from "notistack"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
 			{"Copyright © "}
 			<Link color="inherit" href="https://material-ui.com/">
-				e-wine
+				Your Website
 			</Link>{" "}
 			{new Date().getFullYear()}
-			{"."}
+			{". Built with "}
+			<Link color="inherit" href="https://material-ui.com/">
+				Material-UI.
+			</Link>
 		</Typography>
 	)
 }
@@ -30,10 +38,7 @@ function Copyright() {
 const useStyles = makeStyles(theme => ({
 	"@global": {
 		body: {
-			color: "white",
-			background: " #DA4453  ",
-			background: " -webkit-linear-gradient(to right, #89216B, #DA4453) ",
-			background: " linear-gradient(to right, #89216B, #DA4453) "
+			backgroundColor: theme.palette.common.white
 		}
 	},
 	paper: {
@@ -52,106 +57,133 @@ const useStyles = makeStyles(theme => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2)
-	},
-	gradient: {
-		background: "rgb(36,0,10)",
-		background:
-			"linear-gradient(21deg, rgba(36,0,10,1) 0%, rgba(223,24,89,1) 55%)"
-	},
-	text: { color: "#fff" }
+	}
 }))
 
-export default function LoginPage({ history }) {
+const LoginPage = withRouter(({ history }) => {
+	const { rootNavigation, setAppState } = useAppContext()
+	const [getForm, setForm, updateFormField] = useReduxState({
+		email: "",
+		password: "",
+		loading: false
+	})
+	const [getError, setErrorInput] = useReduxState({
+		email: false,
+		password: false
+	})
+
+	// const { enqueueSnackbar } = useSnackbar()
+
+	const handleClickVariant = variant => () => {
+		// variant could be success, error, warning, info, or default
+		// enqueueSnackbar("This is a warning message!", variant)
+	}
+
+	async function authenticate() {
+		const form = getForm()
+
+		setForm({ loading: true })
+
+		if (form.email.length > 0 && form.password.length > 0) {
+			delete form.loading
+			try {
+				const { status, data } = await api.post(
+					"/auth/login/admin",
+					form
+				)
+				const { token, user } = data
+				api.token = token
+				localStorage.setItem("token", token)
+				history.push("/")
+			} catch (e) {
+				// enqueueSnackbar("Email ou Senha Inválidos")
+				setForm({ loading: false })
+			} finally {
+				setForm({ loading: false })
+			}
+		} else {
+			setForm({ loading: false })
+			if (!form.email) {
+				setErrorInput({ email: true })
+				alert("Por favor preencha o email")
+				// enqueueSnackbar("Por favor preencha o Email")
+			}
+			if (!form.password) {
+				// enqueueSnackbar("Por favor preencha sua Senha")
+				alert("Por favor preencha sua Senha")
+
+				setErrorInput({ password: true })
+			}
+		}
+	}
+
+	const handleInput = (keyInput, e) => {
+		setForm({ [keyInput]: e.target.value.toLowerCase() })
+		if (getError().email) {
+			setErrorInput({ email: false })
+		}
+		if (getError().password) {
+			setErrorInput({ password: false })
+		}
+	}
+
 	const classes = useStyles()
 
-	const [getState, setState, updateFormField] = useReduxState({})
-	const [getLocalUsers, setLocalUsers] = useReduxState({})
-
-	const { local } = getLocalUsers()
-
-	const onSubmit = () => {
-		const form = getState()
-
-		local.map((user, i) => {
-			if (form.email === user.email && form.password === user.password) {
-				const valid_user = user
-				if (valid_user) {
-					if (user.is_admin) {
-						history.push("/painel")
-					} else {
-						history.push("/")
-					}
-				} else {
-					alert("Usuário Invalido")
-				}
-			}
-		})
-	}
-
-	const fetchData = async () => {
-		try {
-			const data = await localStorage.getItem("tbClientes")
-			return data
-		} catch (e) {}
-	}
-
-	useEffect(() => {
-		fetchData().then(payload =>
-			setLocalUsers({ local: JSON.parse(payload) })
-		)
-	}, [])
-
 	return (
-		<Container component="main" maxWidth="xs" style={{}}>
-			{/* <pre>{JSON.stringify(getState(), null, 4)}</pre> */}
+		<Container component="main" maxWidth="xs">
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Login
+					Medita Painel
 				</Typography>
-				<form className={classes.text} noValidate>
+				<form
+					action={"javascript:void(0)"}
+					onSubmit={authenticate}
+					className={classes.form}
+					noValidate>
 					<TextField
-						className={classes.text}
+						error={getError().email}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
 						id="email"
-						label="Email Address"
+						label="Email"
 						name="email"
+						value={getForm().email}
 						autoComplete="email"
+						onChange={event => handleInput("email", event)}
 						autoFocus
-						onChange={e => updateFormField("email")(e.target.value)}
 					/>
 					<TextField
-						className={classes.text}
+						error={getError().password}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
 						name="password"
-						label="Password"
+						label="Senha"
 						type="password"
+						value={getForm().password}
 						id="password"
-						onChange={e =>
-							updateFormField("password")(e.target.value)
-						}
+						autoComplete="current-password"
+						onChange={event => handleInput("password", event)}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
+						label="Lembrar me"
 					/>
 					<Button
-						type="button"
+						disabled={getForm().loading}
+						type="submit"
 						fullWidth
 						variant="contained"
 						color="primary"
-						onClick={onSubmit}
 						className={classes.submit}>
-						Login
+						Entrar
 					</Button>
 					<Grid container>
 						<Grid item xs>
@@ -159,11 +191,11 @@ export default function LoginPage({ history }) {
 								Esqueceu sua senha?
 							</Link>
 						</Grid>
-						<Grid item>
-							<Link href="/register" variant="body2">
-								{"Cadastra-se Já!"}
+						{/* <Grid item>
+							<Link href="#" variant="body2">
+							{}
 							</Link>
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</form>
 			</div>
@@ -172,4 +204,6 @@ export default function LoginPage({ history }) {
 			</Box>
 		</Container>
 	)
-}
+})
+
+export default LoginPage

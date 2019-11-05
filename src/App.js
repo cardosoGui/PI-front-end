@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useEffect } from "react"
 import HomePage from "./pages/HomePage"
 
 import { Router, Route } from "react-router-dom"
@@ -15,9 +15,37 @@ import DetailsProduct from "./components/DetailsProduct"
 import CustomerForm from "./pages/customer/addcustomer"
 import CustomerPage from "./pages/customer"
 import EditCustomerPage from "./pages/customer/editcustomer"
+import useReduxState from "./core/useReduxState"
+import api from "./core/api"
+
+const NO_AUTH_ROUTES = ["login", "reset", "forgot", "categories"]
+const NO_AUTH_RE = new RegExp(`^/[${NO_AUTH_ROUTES.join("|")}]`)
 
 function App({ key }) {
 	const history = useMemo(() => createBrowserHistory(), [])
+	const [getAppState, setAppState] = useReduxState({
+		user: null,
+		rootNavigation: null,
+		loading: true
+	})
+
+	const fetchUserInfo = async () => {
+		if (history.location.pathname.match(NO_AUTH_RE)) {
+			setAppState({ loading: false })
+			return
+		}
+		try {
+			const { data } = await api.get("/auth/me/admin")
+			setAppState({ user: data.user, loading: false })
+		} catch (e) {
+			history.replace("/login")
+			setAppState({ loading: false })
+		}
+	}
+
+	useEffect(() => {
+		fetchUserInfo()
+	}, [key])
 
 	const Products = () => (
 		<Dashboard>

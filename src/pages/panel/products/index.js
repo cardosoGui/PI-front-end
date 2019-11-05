@@ -44,17 +44,12 @@ const ProductsPage = ({ history }) => {
 			<ProductsContainer>
 				{products => {
 					return (
-						<GridList
-							cellHeight={400}
-							// className={classes.gridList}
-							cols={3}>
+						<div>
 							{products &&
 								products.map((item, key) => (
-									<GridListTile key={key} cols={1}>
-										<ProductItem item={item} />
-									</GridListTile>
+									<ProductItem product={item} />
 								))}
-						</GridList>
+						</div>
 					)
 				}}
 			</ProductsContainer>

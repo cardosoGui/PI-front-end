@@ -1,28 +1,34 @@
 import React from "react"
 import { TextField, Grid, Button } from "@material-ui/core"
 import useReduxState from "../../core/useReduxState"
+
 import api from "../../core/api"
 
 const ProductsForm = ({ history, item }) => {
 	const [getForm, setForm, updateFormField] = useReduxState({ ...item })
 
 	const defItem = {
-		id: "",
-		title: "",
+		name: "",
 		description: "",
 		image: "",
 		price: "",
-		quantityOnHand: ""
+		quantity: ""
 	}
 
 	const form = getForm() || defItem
 
-	const onSubmit = form => {
-		const payload = { ...form, image: "teste" }
+	const onSubmit = () => {
+		const formData = new FormData()
 
+		// formData.append("filename", form.image)
+		formData.append("name", form.name)
+		formData.append("description", form.description)
+		formData.append("quantity", form.quantity)
+		formData.append("price", form.price)
+		// formData.append("categories", "123,123")
 		try {
 			const { data } = api
-				.post("/products", payload)
+				.post("/products", formData)
 				.finally(res => alert("Cadastrado com sucesso"))
 		} catch (e) {
 			console.log(e.status)
@@ -51,9 +57,9 @@ const ProductsForm = ({ history, item }) => {
 							variant="outlined"
 							fullWidth
 							label="Nome"
-							value={form.title}
+							value={form.name}
 							onChange={e => {
-								updateFormField("title")(e.target.value)
+								updateFormField("name")(e.target.value)
 							}}
 						/>
 					</Grid>
@@ -74,11 +80,9 @@ const ProductsForm = ({ history, item }) => {
 							fullWidth
 							label="Quantidade"
 							type="number"
-							value={form.quantityOnHand}
+							value={form.quantity}
 							onChange={e => {
-								updateFormField("quantityOnHand")(
-									e.target.value
-								)
+								updateFormField("quantity")(e.target.value)
 							}}
 						/>
 					</Grid>
@@ -107,7 +111,7 @@ const ProductsForm = ({ history, item }) => {
 					</Grid>
 				</Grid>
 				<Button
-					onClick={() => (form.id ? onUpdate(form) : onSubmit(form))}
+					onClick={() => (form.id ? onUpdate(form) : onSubmit())}
 					type="button"
 					fullWidth
 					variant="contained"
