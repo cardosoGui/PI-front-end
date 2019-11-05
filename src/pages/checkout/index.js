@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Paper } from '@material-ui/core'
 
 const CheckoutPage = () => {
