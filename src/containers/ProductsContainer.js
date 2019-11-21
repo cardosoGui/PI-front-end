@@ -77,9 +77,5 @@ export default function ProductsContainer({ key, children }) {
 		)
 	}
 
-	return (
-		<Grid container wrap="nowrap" spacing={2}>
-			<List className={classes.root}>{children(state.products)}</List>
-		</Grid>
-	)
+	return <Grid>{children(state.products)}</Grid>
 }

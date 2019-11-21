@@ -39,41 +39,47 @@ const ProductsForm = ({ history, item }) => {
 		const payload = { ...form }
 
 		try {
-			const { data } = api.put("/products", payload)
+			const { data } = api.put(`/products/${item.id}`, payload)
+			alert("UPDATE")
 		} catch (e) {
 			console.log(e.status)
 		}
-		alert("UPDATE")
 	}
 
 	const classes = ""
 	return (
 		<div>
 			<form noValidate>
-				<pre>{JSON.stringify(form, null, 4)}</pre>
 				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<TextField
-							variant="outlined"
-							fullWidth
-							label="Nome"
-							value={form.name}
-							onChange={e => {
-								updateFormField("name")(e.target.value)
-							}}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							variant="outlined"
-							fullWidth
-							label="Detalhes do produto"
-							value={form.description}
-							onChange={e => {
-								updateFormField("description")(e.target.value)
-							}}
-						/>
-					</Grid>
+					{!form.id && (
+						<>
+							<Grid item xs={12}>
+								<TextField
+									variant="outlined"
+									fullWidth
+									label="Nome"
+									value={form.name}
+									onChange={e => {
+										updateFormField("name")(e.target.value)
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									variant="outlined"
+									fullWidth
+									label="Detalhes do produto"
+									value={form.description}
+									onChange={e => {
+										updateFormField("description")(
+											e.target.value
+										)
+									}}
+								/>
+							</Grid>
+						</>
+					)}
+
 					<Grid item xs={12}>
 						<TextField
 							variant="outlined"
@@ -84,6 +90,7 @@ const ProductsForm = ({ history, item }) => {
 							onChange={e => {
 								updateFormField("quantity")(e.target.value)
 							}}
+							form
 						/>
 					</Grid>
 					{/* //image */}
@@ -111,13 +118,13 @@ const ProductsForm = ({ history, item }) => {
 					</Grid>
 				</Grid>
 				<Button
-					onClick={() => (form.id ? onUpdate(form) : onSubmit())}
+					onClick={() => (form.id ? onUpdate(form) : onSubmit)}
 					type="button"
 					fullWidth
 					variant="contained"
 					color="primary"
 					className={classes.submit}>
-					Adicionar
+					{!form.id ? "Adicionar" : "Salvar"}
 				</Button>
 			</form>
 		</div>

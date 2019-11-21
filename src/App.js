@@ -15,10 +15,19 @@ import DetailsProduct from "./components/DetailsProduct"
 import CustomerForm from "./pages/customer/addcustomer"
 import CustomerPage from "./pages/customer"
 import EditCustomerPage from "./pages/customer/editcustomer"
+import CheckoutPage from "./pages/checkout"
+
 import useReduxState from "./core/useReduxState"
 import api from "./core/api"
 
-const NO_AUTH_ROUTES = ["login", "reset", "forgot", "categories"]
+const NO_AUTH_ROUTES = [
+	"login",
+	"reset",
+	"forgot",
+	"categories",
+	"/",
+	"checkout"
+]
 const NO_AUTH_RE = new RegExp(`^/[${NO_AUTH_ROUTES.join("|")}]`)
 
 function App({ key }) {
@@ -38,7 +47,6 @@ function App({ key }) {
 			const { data } = await api.get("/auth/me/admin")
 			setAppState({ user: data.user, loading: false })
 		} catch (e) {
-			history.replace("/login")
 			setAppState({ loading: false })
 		}
 	}
@@ -87,6 +95,7 @@ function App({ key }) {
 				exact
 				component={ProductsEdit}
 			/>
+			<Route path="/checkout" exact component={CheckoutPage} />
 
 			{/* <Route path="/produtos" exact component={VideosPage} />
 				<Route path="/produtos/add" exact component={AddVideo} />

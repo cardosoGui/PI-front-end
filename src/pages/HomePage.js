@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import GridListTile from "@material-ui/core/GridListTile"
 import { IconButton, GridListTileBar, Fade, GridList } from "@material-ui/core"
 import InfoIcon from "@material-ui/icons/Info"
+import ProductsContainer from "../containers/ProductsContainer"
 
 const useStyles = makeStyles({
 	image: { width: "100%" }
@@ -34,49 +35,52 @@ const HomePage = ({ history }) => {
 		<Fade>
 			<AppContainer>
 				<Slides />
-
-				<WineContainer>
-					{wineData => (
-						<GridList
-							// style={{ height: "10%" }}
-							cellHeight={500}
-							spacing={20}
-							className={classes.gridList}
-							cols={6}
-							style={{ padding: "4em" }}>
-							{wineData.map((item, key) => (
-								<GridListTile
-									onClick={() =>
-										history.push(`/products/details/${key}`)
-									}
-									key={key}
-									cols={item.cols || 1}>
-									<img
-										src={item.img}
-										alt={item.title}
-										// height={200}
-									/>
-									<GridListTileBar
-										title={item.title}
-										subtitle={
-											<span>by: {item.author}</span>
+				<ProductsContainer>
+					{products => {
+						return (
+							<GridList
+								// style={{ height: "10%" }}
+								cellHeight={500}
+								spacing={20}
+								className={classes.gridList}
+								cols={6}
+								style={{ padding: "4em" }}>
+								{products.map((item, key) => (
+									<GridListTile
+										onClick={() =>
+											history.push(
+												`/products/details/${key}`
+											)
 										}
-										actionIcon={
-											<IconButton
-												style={{
-													color:
-														"rgba(255, 255, 255, 0.54)"
-												}}
-												aria-label={`info about ${item.title}`}>
-												<InfoIcon />
-											</IconButton>
-										}
-									/>
-								</GridListTile>
-							))}
-						</GridList>
-					)}
-				</WineContainer>
+										key={key}
+										cols={item.cols || 1}>
+										<img
+											src={`/public/${item.id}/images`}
+											alt={item.title}
+											// height={200}
+										/>
+										<GridListTileBar
+											title={item.title}
+											subtitle={
+												<span>by: {item.author}</span>
+											}
+											actionIcon={
+												<IconButton
+													style={{
+														color:
+															"rgba(255, 255, 255, 0.54)"
+													}}
+													aria-label={`info about ${item.title}`}>
+													<InfoIcon />
+												</IconButton>
+											}
+										/>
+									</GridListTile>
+								))}
+							</GridList>
+						)
+					}}
+				</ProductsContainer>
 			</AppContainer>
 		</Fade>
 	)
